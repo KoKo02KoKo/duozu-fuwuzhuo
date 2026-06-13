@@ -1,0 +1,26 @@
+# Local tooling
+.codegraph/
+.reasonix/
+.tools/
+.vscode/
+
+# Logs and downloaded tools
+*.log
+*.zip
+
+# Keil/MDK build outputs
+MDK-ARM/test/
+MDK-ARM/*.uvguix.*
+MDK-ARM/JLinkLog.txt
+
+# Generic build artifacts
+*.o
+*.d
+*.crf
+*.lst
+*.map
+*.axf
+*.hex
+*.htm
+*.lnp
+*.dep
