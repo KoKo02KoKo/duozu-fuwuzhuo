@@ -24,9 +24,6 @@ void _sys_exit(int return_code)
 }
 /* ============================================ */
 
-uint8_t DEBUG = 0;  // =1 开机即输出调试信息
-uint32_t debug_last_tick = 0;
-
 uart_t debug_uart; // 用于调试打印
 uart_t web_uart;   // 用于 ESP32 WiFi 模块
 uart_t screen_uart; // 用于串口屏

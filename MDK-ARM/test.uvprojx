@@ -620,6 +620,11 @@
               <FileType>1</FileType>
               <FilePath>..\Self\common.c</FilePath>
             </File>
+            <File>
+              <FileName>servo.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Self\servo.c</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>

@@ -100,6 +100,7 @@ int main(void)
   MX_USART6_UART_Init();
   MX_TIM2_Init();
   MX_UART8_Init();
+  MX_TIM1_Init();
   /* USER CODE BEGIN 2 */
   Init_Common(); // 初始化通用模块，包括 UART、电机、角度和 PID 控制器等
   /* USER CODE END 2 */

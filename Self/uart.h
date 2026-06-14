@@ -25,8 +25,6 @@ extern "C" {
 
 typedef struct uart_t uart_t;
 
-extern uint8_t DEBUG;
-extern uint32_t debug_last_tick;
 extern uart_t debug_uart; // 用于调试打印
 extern uart_t web_uart;   // 用于 ESP32 WiFi 模块
 extern uart_t screen_uart; // 用于串口屏
