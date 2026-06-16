@@ -630,6 +630,21 @@
               <FileType>1</FileType>
               <FilePath>..\Self\BSP\uart.c</FilePath>
             </File>
+            <File>
+              <FileName>obstacle.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Self\APP\obstacle.c</FilePath>
+            </File>
+            <File>
+              <FileName>radar.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Self\APP\radar.c</FilePath>
+            </File>
+            <File>
+              <FileName>tx_radar.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Self\APP\tx_radar.c</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>
