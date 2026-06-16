@@ -28,6 +28,7 @@ uart_t debug_uart; // 用于调试打印UART1
 uart_t k230_uart;   // 用于 K230 模块UART2
 uart_t screen_uart; // 用于串口屏UART3
 uart_t gyro_uart;   // 用于陀螺仪UART4
+uart_t web_uart;    // 用于 Web 模块UART5
 uart_t radar_uart;   // 用于雷达UART6
 uart_t tx_radar_uart;   // 用于发送雷达数据UART8
 
@@ -185,6 +186,13 @@ void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart)
         //replace: 实际项目中这里调用 HAL_UART_Receive_IT 使能接收中断, 用户可自己替换
         HAL_UART_Receive_IT(&huart4, &gyro_uart.rx_byte, 1);
     }
+    //UART 5 用于 Web 模块
+    if (huart->Instance == UART5)
+    {
+        web_uart.receive_byte(&web_uart, web_uart.rx_byte);
+        //replace: 实际项目中这里调用 HAL_UART_Receive_IT 使能接收中断, 用户可自己替换
+        HAL_UART_Receive_IT(&huart5, &web_uart.rx_byte, 1);
+    }   
     //UART 6 用于雷达
     if (huart->Instance == USART6)
     {

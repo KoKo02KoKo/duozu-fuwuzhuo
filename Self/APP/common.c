@@ -65,8 +65,6 @@ void main_task()
     {
       debug_last_tick = HAL_GetTick();
       printf("DEBUG=%d SERVO=%d\r\n", DEBUG, servo_open);
-      printf("track_x_pid: Kp=%.3f Ki=%.5f Kd=%.3f\r\n", track_x_pid.Kp, track_x_pid.Ki, track_x_pid.Kd);
-      printf("track_y_pid: Kp=%.3f Ki=%.5f Kd=%.3f\r\n", track_y_pid.Kp, track_y_pid.Ki, track_y_pid.Kd);
 
     }
     // 1.debug_uart 接收 "DEBUG=1" 或 "DEBUG=0" 来控制 DEBUG 模式开关
@@ -124,8 +122,8 @@ void main_task()
     {
       face_track_update();  // 人脸追踪 PID 驱动 sl sh舵机
       
-      sh.set_angle(&sh, sh.angle); // 设置舵机1角度为90度
-      sl.set_angle(&sl, sl.angle); // 设置舵机2角度为90度
+      sh.set_angle(&sh, sh.angle); // 设置舵机1角度
+      sl.set_angle(&sl, sl.angle); // 设置舵机2角度
     }
     // 8. 设置电机速度
     if(motor_open == 1)

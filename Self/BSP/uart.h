@@ -29,6 +29,7 @@ extern uart_t debug_uart; // 用于调试打印UART1
 extern uart_t k230_uart;   // 用于 K230 模块UART2
 extern uart_t screen_uart; // 用于串口屏UART3
 extern uart_t gyro_uart;   // 用于陀螺仪UART4
+extern uart_t web_uart;    // 用于 Web 模块UART5
 extern uart_t radar_uart;   // 用于雷达UART6
 extern uart_t tx_radar_uart;   // 用于发送雷达数据UART8
 
