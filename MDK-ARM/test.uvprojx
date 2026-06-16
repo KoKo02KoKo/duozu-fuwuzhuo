@@ -340,7 +340,7 @@
               <MiscControls></MiscControls>
               <Define>USE_PWR_LDO_SUPPLY,USE_HAL_DRIVER,STM32H750xx</Define>
               <Undefine></Undefine>
-              <IncludePath>../Core/Inc;../Drivers/STM32H7xx_HAL_Driver/Inc;../Drivers/STM32H7xx_HAL_Driver/Inc/Legacy;../Drivers/CMSIS/Device/ST/STM32H7xx/Include;../Drivers/CMSIS/Include;../Self</IncludePath>
+              <IncludePath>../Core/Inc;../Drivers/STM32H7xx_HAL_Driver/Inc;../Drivers/STM32H7xx_HAL_Driver/Inc/Legacy;../Drivers/CMSIS/Device/ST/STM32H7xx/Include;../Drivers/CMSIS/Include;../Self;../Self/APP;../Self/BSP</IncludePath>
             </VariousControls>
           </Cads>
           <Aads>
@@ -596,34 +596,39 @@
           <GroupName>Self</GroupName>
           <Files>
             <File>
-              <FileName>uart.c</FileName>
+              <FileName>face_track.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\Self\uart.c</FilePath>
-            </File>
-            <File>
-              <FileName>motor.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\Self\motor.c</FilePath>
-            </File>
-            <File>
-              <FileName>pid.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\Self\pid.c</FilePath>
-            </File>
-            <File>
-              <FileName>angle.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\Self\angle.c</FilePath>
+              <FilePath>..\Self\APP\face_track.c</FilePath>
             </File>
             <File>
               <FileName>common.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\Self\common.c</FilePath>
+              <FilePath>..\Self\APP\common.c</FilePath>
+            </File>
+            <File>
+              <FileName>angle.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Self\APP\angle.c</FilePath>
+            </File>
+            <File>
+              <FileName>motor.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Self\BSP\motor.c</FilePath>
+            </File>
+            <File>
+              <FileName>pid.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Self\BSP\pid.c</FilePath>
             </File>
             <File>
               <FileName>servo.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\Self\servo.c</FilePath>
+              <FilePath>..\Self\BSP\servo.c</FilePath>
+            </File>
+            <File>
+              <FileName>uart.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Self\BSP\uart.c</FilePath>
             </File>
           </Files>
         </Group>

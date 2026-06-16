@@ -1,6 +1,6 @@
 #include "pid.h"
 
-PID_TypeDef yaw_pid; // 定义一个 PID 实例
+PID_TypeDef yaw_pid;   // 偏航角 PID 实例
 
 /// @brief Initialize the PID controller
 void PID_Init(PID_TypeDef *pid, float Kp, float Ki, float Kd, float out_min, float out_max)
@@ -34,6 +34,26 @@ float PID_Update(PID_TypeDef *pid, float target, float measurement, float dt)
 
     if (output > pid->output_max) output = pid->output_max;// 输出限制
     if (output < pid->output_min) output = pid->output_min;// 输出限制
+
+    return output;
+}
+
+/// @brief 线性 PID 更新函数（无角度环绕，用于视觉追踪等线性场景）
+float PID_Update_Linear(PID_TypeDef *pid, float target, float measurement, float dt)
+{
+    float error = target - measurement;
+
+    pid->integral += error * dt;
+    if (pid->integral > pid->integeral_max) pid->integral = pid->integeral_max;
+    if (pid->integral < -pid->integeral_max) pid->integral = -pid->integeral_max;
+
+    float derivative = (error - pid->prev_error) / dt;
+    pid->prev_error = error;
+
+    float output = pid->Kp * error + pid->Ki * pid->integral + pid->Kd * derivative;
+
+    if (output > pid->output_max) output = pid->output_max;
+    if (output < pid->output_min) output = pid->output_min;
 
     return output;
 }

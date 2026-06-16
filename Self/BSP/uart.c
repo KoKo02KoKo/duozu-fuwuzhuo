@@ -24,10 +24,12 @@ void _sys_exit(int return_code)
 }
 /* ============================================ */
 
-uart_t debug_uart; // 用于调试打印
-uart_t web_uart;   // 用于 ESP32 WiFi 模块
-uart_t screen_uart; // 用于串口屏
-uart_t gyro_uart;   // 用于陀螺仪
+uart_t debug_uart; // 用于调试打印UART1
+uart_t k230_uart;   // 用于 K230 模块UART2
+uart_t screen_uart; // 用于串口屏UART3
+uart_t gyro_uart;   // 用于陀螺仪UART4
+uart_t rader_uart;   // 用于雷达UART6
+uart_t tx_rader_uart;   // 用于发送雷达数据UART8
 
 /* ========================== 默认 receive_byte 实现 ========================== */
 
@@ -155,32 +157,47 @@ void uart_init(uart_t *uart, UART_HandleTypeDef *huart, uint32_t timeout_ms, uin
 /// @brief UART receive complete callback
 void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart)
 {
-    //debug
+   //UART 1 用于调试打印
     if (huart->Instance == USART1)
     {
         debug_uart.receive_byte(&debug_uart, debug_uart.rx_byte);
         //replace: 实际项目中这里调用 HAL_UART_Receive_IT 使能接收中断, 用户可自己替换
         HAL_UART_Receive_IT(&huart1, &debug_uart.rx_byte, 1);
     }
-
+    //UART 2 用于 K230 模块
     if (huart->Instance == USART2)
     {
-        web_uart.receive_byte(&web_uart, web_uart.rx_byte);
+        k230_uart.receive_byte(&k230_uart, k230_uart.rx_byte);
         //replace: 实际项目中这里调用 HAL_UART_Receive_IT 使能接收中断, 用户可自己替换
-        HAL_UART_Receive_IT(&huart2, &web_uart.rx_byte, 1);
+        HAL_UART_Receive_IT(&huart2, &k230_uart.rx_byte, 1);
     }
+    //UART 3 用于串口屏
     if (huart->Instance == USART3)
     {
         screen_uart.receive_byte(&screen_uart, screen_uart.rx_byte);
         //replace: 实际项目中这里调用 HAL_UART_Receive_IT 使能接收中断, 用户可自己替换
         HAL_UART_Receive_IT(&huart3, &screen_uart.rx_byte, 1);
     }
-
+    //UART 4 用于陀螺仪
     if (huart->Instance == UART4)
     {
         gyro_uart.receive_byte(&gyro_uart, gyro_uart.rx_byte);
         //replace: 实际项目中这里调用 HAL_UART_Receive_IT 使能接收中断, 用户可自己替换
         HAL_UART_Receive_IT(&huart4, &gyro_uart.rx_byte, 1);
+    }
+    //UART 6 用于雷达
+    if (huart->Instance == UART6)
+    {
+        rader_uart.receive_byte(&rader_uart, rader_uart.rx_byte);
+        //replace: 实际项目中这里调用 HAL_UART_Receive_IT 使能接收中断, 用户可自己替换
+        HAL_UART_Receive_IT(&huart6, &rader_uart.rx_byte, 1);
+    }
+    //UART 8 用于发送雷达数据
+    if (huart->Instance == UART8)
+    {
+        tx_rader_uart.receive_byte(&tx_rader_uart, tx_rader_uart.rx_byte);
+        //replace: 实际项目中这里调用 HAL_UART_Receive_IT 使能接收中断, 用户可自己替换
+        HAL_UART_Receive_IT(&huart8, &tx_rader_uart.rx_byte, 1);
     }
 }
 

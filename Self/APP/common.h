@@ -14,6 +14,7 @@
 #include "pid.h"
 #include <stdio.h>
 #include "servo.h"
+#include "face_track.h"
 
 //
 extern uint8_t DEBUG; // =1 开机即输出调试信息

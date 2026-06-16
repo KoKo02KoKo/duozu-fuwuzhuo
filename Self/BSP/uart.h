@@ -25,10 +25,12 @@ extern "C" {
 
 typedef struct uart_t uart_t;
 
-extern uart_t debug_uart; // 用于调试打印
-extern uart_t web_uart;   // 用于 ESP32 WiFi 模块
-extern uart_t screen_uart; // 用于串口屏
-extern uart_t gyro_uart;   // 用于陀螺仪
+extern uart_t debug_uart; // 用于调试打印UART1
+extern uart_t k230_uart;   // 用于 K230 模块UART2
+extern uart_t screen_uart; // 用于串口屏UART3
+extern uart_t gyro_uart;   // 用于陀螺仪UART4
+extern uart_t rader_uart;   // 用于雷达UART6
+extern uart_t tx_rader_uart;   // 用于发送雷达数据UART8
 
 /* 函数指针类型 */
 typedef void (*uart_send_char_fn)(uart_t *uart, uint8_t byte);

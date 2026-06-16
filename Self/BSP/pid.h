@@ -3,7 +3,7 @@
 
 typedef struct PID_TPEDEF  PID_TypeDef;
 
-extern PID_TypeDef yaw_pid; // 定义一个 PID 实例
+extern PID_TypeDef yaw_pid;  // 偏航角 PID 实例（带角度环绕）
 
 /// @brief PID controller structure definition
 struct PID_TPEDEF
@@ -24,5 +24,6 @@ struct PID_TPEDEF
 
 void PID_Init(PID_TypeDef *pid, float Kp, float Ki, float Kd, float out_min, float out_max);
 float PID_Update(PID_TypeDef *pid, float target, float measurement, float dt);
+float PID_Update_Linear(PID_TypeDef *pid, float target, float measurement, float dt);  // 线性 PID，不做角度环绕
 
 #endif
