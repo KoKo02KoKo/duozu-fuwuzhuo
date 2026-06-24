@@ -22,6 +22,9 @@
 #include "stm32h7xx_it.h"
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
+#include "others.h"
+#include "motion.h"
+#include "angle.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/

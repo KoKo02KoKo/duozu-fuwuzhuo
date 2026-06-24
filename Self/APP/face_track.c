@@ -12,6 +12,8 @@
 
 /* ========================== 全局变量 ========================== */
 
+SERVO sh; // 定义一个 SERVO 实例
+SERVO sl; // 定义一个 SERVO 实例
 face_track_data_t face_data = {320, 0, 0, 0, 0, 0};  // 默认中心=320
 PID_TypeDef       track_x_pid;   // 水平追踪 PID（驱动 sl）
 PID_TypeDef       track_y_pid;   // 垂直追踪 PID（驱动 sh）

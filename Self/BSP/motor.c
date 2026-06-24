@@ -2,16 +2,13 @@
 #include <math.h>
 #include <stdlib.h>
 
-MOTOR ml; // 定义一个 MOTOR 实例
-MOTOR mr; // 定义一个 MOTOR 实例
-
 /// @brief Initialize the motor
 void motor_init(MOTOR *m,unsigned int channel,GPIO_TypeDef* dir_a_port, GPIO_TypeDef* dir_b_port, uint16_t dir_a_pin, uint16_t dir_b_pin)
 {
     m->speed = 0;
     m->speed_max = 100;
     m->duty = 0;
-    m->duty_max = 100;
+    m->duty_max = 1000;
     m->channel = channel;
     m->dir_a_port = dir_a_port;
     m->dir_b_port = dir_b_port;
@@ -66,7 +63,7 @@ void motor_set_speed(MOTOR *m, int speed)
     else
         m->speed = speed;
 
-    m->duty = abs((m->duty_max * speed) / m->speed_max); 
+    m->duty = (uint32_t)abs(speed) * m->duty_max / m->speed_max;
     //Set the motor duty cycle
     m->set_duty(m, m->duty);
     // Set the motor direction

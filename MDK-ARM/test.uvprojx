@@ -606,11 +606,6 @@
               <FilePath>..\Self\APP\common.c</FilePath>
             </File>
             <File>
-              <FileName>angle.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\Self\APP\angle.c</FilePath>
-            </File>
-            <File>
               <FileName>motor.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\Self\BSP\motor.c</FilePath>
@@ -644,6 +639,16 @@
               <FileName>tx_radar.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\Self\APP\tx_radar.c</FilePath>
+            </File>
+            <File>
+              <FileName>angle.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Self\BSP\angle.c</FilePath>
+            </File>
+            <File>
+              <FileName>motion.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Self\APP\motion.c</FilePath>
             </File>
           </Files>
         </Group>

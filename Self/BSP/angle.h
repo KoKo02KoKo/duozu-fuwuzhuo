@@ -17,6 +17,7 @@ typedef struct ANGLE_
     float target_yaw;
     float target_roll;
     float target_pitch;
+    uint8_t control_enable;     // 角度闭环控制使能：0=关, 1=开
     
 } ANGLE;
 

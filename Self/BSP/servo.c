@@ -1,8 +1,5 @@
 #include "servo.h"
 
-SERVO sh; // 定义一个 SERVO 实例
-SERVO sl; // 定义一个 SERVO 实例
-
 /// @brief Initialize the servo
 void servo_init(SERVO *s, unsigned int channel, int angle_max,int angle_min,int duty_max,int duty_min)
 {

@@ -73,7 +73,7 @@ uint8_t angle_update_from_jy61p_frame(ANGLE *a, const uint8_t *buf, uint8_t len)
 
                     a->roll = (float)roll_raw / 32768.0f * 180.0f;
                     a->pitch = (float)pitch_raw / 32768.0f * 180.0f;
-                    a->yaw = (float)yaw_raw / 32768.0f * 180.0f;
+                    a->yaw = -1.0*(float)yaw_raw / 32768.0f * 180.0f;
 
                     return 1;
                 }

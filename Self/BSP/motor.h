@@ -5,9 +5,6 @@
 
 typedef struct MOTOR_ MOTOR;
 
-extern MOTOR ml; // 定义一个 MOTOR 实例
-extern MOTOR mr; // 定义一个 MOTOR 实例
-
 /// @brief Motor structure definition
 struct MOTOR_
 {

@@ -2,7 +2,10 @@
 #define __OTHERS_H
 
 #include "main.h"
-#include "stm32f4xx_hal.h"
+#include "usart.h"
+#include "motor.h"
+#include "angle.h"
+#include "pid.h"
 
 /// @brief Get the motor mode from the input pins
 typedef enum {
@@ -22,12 +25,14 @@ typedef enum {
 } motor_mode_t;
 
 extern motor_mode_t mode;
-extern MOTOR motor_a, motor_b; // 电机实例
+extern MOTOR ml, mr; // 电机实例（定义在 motion.c）
 extern ANGLE angle; // 角度实例
 extern PID_TypeDef yaw_pid; // PID实例
 extern int cc;
 extern volatile uint8_t turn_completed_flag; // 转向完成防连发锁
 
+
+extern int mode_HMI;
 
 motor_mode_t get_motor_mode(void);
 

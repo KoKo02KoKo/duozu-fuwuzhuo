@@ -3,8 +3,6 @@
 
 typedef struct PID_TPEDEF  PID_TypeDef;
 
-extern PID_TypeDef yaw_pid;  // 偏航角 PID 实例（带角度环绕）
-
 /// @brief PID controller structure definition
 struct PID_TPEDEF
 {

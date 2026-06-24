@@ -1,7 +1,5 @@
 #include "pid.h"
 
-PID_TypeDef yaw_pid;   // 偏航角 PID 实例
-
 /// @brief Initialize the PID controller
 void PID_Init(PID_TypeDef *pid, float Kp, float Ki, float Kd, float out_min, float out_max)
 {
