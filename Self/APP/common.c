@@ -27,7 +27,7 @@ void Init_Common(void)
   if(motor_mode == 1)
   {
     angle_init(&angle);// 初始化角度结构体
-    PID_Init(&yaw_pid, 2.0f, 0.005f, 0.5f, -50.0f, 50.0f); // 初始化 PID 控制器，参数需要根据实际情况调整
+    PID_Init(&yaw_pid, 2.0f, 0.05f, 0.5f, -70.0f, 70.0f); // 初始化 PID 控制器，参数需要根据实际情况调整
     motion_init(&motion, 0, &yaw_pid); // 初始化运动控制器，基础速度 0，使用 yaw_pid 进行偏航控制
 
     // 初始化陀螺仪，发送解锁、设置输出、校准和保存命令

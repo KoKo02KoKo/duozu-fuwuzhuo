@@ -100,8 +100,9 @@ void motion_update_m(Motion_Controller *m, float dt)
     float turn = m->yaw_pid->update(m->yaw_pid, m->target_yaw, current_yaw, dt);
     
     // 3. 差分混入电机速度
-    int left_speed  = clamp_speed((int)(m->speed - turn));
-    int right_speed = clamp_speed((int)(m->speed + turn));
+    // yaw>0(偏左)时 turn<0, 需右轮加速来纠正 → right = speed-turn, left = speed+turn
+    int left_speed  = clamp_speed((int)(m->speed + turn));
+    int right_speed = clamp_speed((int)(m->speed - turn));
 
     // 4. 输出到左右电机
     ml.set_speed(&ml, left_speed);
