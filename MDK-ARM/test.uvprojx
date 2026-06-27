@@ -636,11 +636,6 @@
               <FilePath>..\Self\APP\radar.c</FilePath>
             </File>
             <File>
-              <FileName>tx_radar.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\Self\APP\tx_radar.c</FilePath>
-            </File>
-            <File>
               <FileName>angle.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\Self\BSP\angle.c</FilePath>
@@ -649,6 +644,16 @@
               <FileName>motion.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\Self\APP\motion.c</FilePath>
+            </File>
+            <File>
+              <FileName>web.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Self\APP\web.c</FilePath>
+            </File>
+            <File>
+              <FileName>xiaozhi.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>D:\0Workplace\H750_Test\h750\Self\APP\xiaozhi.c</FilePath>
             </File>
           </Files>
         </Group>

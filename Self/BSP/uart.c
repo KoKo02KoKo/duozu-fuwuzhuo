@@ -27,7 +27,7 @@ void _sys_exit(int return_code)
 uart_t debug_uart; // 用于调试打印UART1    115200
 uart_t k230_uart;   // 用于 K230 模块UART2 115200
 uart_t screen_uart; // 用于串口屏UART3 115200
-uart_t gyro_uart;   // 用于陀螺仪UART4 9600
+uart_t gyro_uart;   // 用于陀螺仪UART4 115200
 uart_t web_uart;    // 用于 Web 模块UART5 115200
 uart_t radar_uart;   // 用于雷达UART6 230400
 uart_t tx_radar_uart;   // 用于发送雷达数据UART8 

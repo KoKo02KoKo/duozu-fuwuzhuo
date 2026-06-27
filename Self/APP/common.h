@@ -17,6 +17,7 @@
 #include "servo.h"
 #include "face_track.h"
 #include "radar.h"
+#include "xiaozhi.h"
 
 
 //

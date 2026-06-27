@@ -43,7 +43,7 @@ void motion_init(Motion_Controller *m, int speed, PID_TypeDef *pid)
 /// @param yaw 目标偏航角，范围 -180° ~ +180°
 void motion_set_target_yaw(Motion_Controller *m, float yaw)
 {
-    m->target_yaw = yaw;
+    m->target_yaw = angle.yaw + yaw;
 }
 
 /// @brief 设置基础线速度
@@ -96,15 +96,35 @@ void motion_update_m(Motion_Controller *m, float dt)
     // 1. 读取当前陀螺仪 yaw
     float current_yaw = angle.yaw;
 
-    // 2. PID 计算转向修正量（PID_Update 内部已处理角度环绕）
+    // 2. 计算 yaw 误差（带 ±180° 环绕处理）
+    float yaw_error = m->target_yaw - current_yaw;
+    if (yaw_error > 180.0f)  yaw_error -= 360.0f;
+    if (yaw_error < -180.0f) yaw_error += 360.0f;
+
+    // 3. 到达目标判定：速度<20 且 朝向偏差<5° 持续5秒 → 自动停
+    static float idle_time = 0.0f;
+    if (abs(m->speed) < 20 && yaw_error < 5.0f && yaw_error > -5.0f) {
+        idle_time += dt;
+        if (idle_time >= 5.0f) {
+            m->enabled = 0;
+            ml.set_speed(&ml, 0);
+            mr.set_speed(&mr, 0);
+            idle_time = 0.0f;
+            return;
+        }
+    } else {
+        idle_time = 0.0f;
+    }
+
+    // 4. PID 计算转向修正量（PID_Update 内部已处理角度环绕）
     float turn = m->yaw_pid->update(m->yaw_pid, m->target_yaw, current_yaw, dt);
     
-    // 3. 差分混入电机速度
+    // 5. 差分混入电机速度
     // yaw>0(偏左)时 turn<0, 需右轮加速来纠正 → right = speed-turn, left = speed+turn
     int left_speed  = clamp_speed((int)(m->speed + turn));
     int right_speed = clamp_speed((int)(m->speed - turn));
 
-    // 4. 输出到左右电机
+    // 6. 输出到左右电机
     ml.set_speed(&ml, left_speed);
     mr.set_speed(&mr, right_speed);
 }

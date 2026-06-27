@@ -711,8 +711,8 @@
       <tvExp>0</tvExp>
       <tvExpOptDlg>0</tvExpOptDlg>
       <bDave2>0</bDave2>
-      <PathWithFileName>..\Self\APP\tx_radar.c</PathWithFileName>
-      <FilenameWithoutPath>tx_radar.c</FilenameWithoutPath>
+      <PathWithFileName>..\Self\BSP\angle.c</PathWithFileName>
+      <FilenameWithoutPath>angle.c</FilenameWithoutPath>
       <RteFlg>0</RteFlg>
       <bShared>0</bShared>
     </File>
@@ -723,8 +723,8 @@
       <tvExp>0</tvExp>
       <tvExpOptDlg>0</tvExpOptDlg>
       <bDave2>0</bDave2>
-      <PathWithFileName>..\Self\BSP\angle.c</PathWithFileName>
-      <FilenameWithoutPath>angle.c</FilenameWithoutPath>
+      <PathWithFileName>..\Self\APP\motion.c</PathWithFileName>
+      <FilenameWithoutPath>motion.c</FilenameWithoutPath>
       <RteFlg>0</RteFlg>
       <bShared>0</bShared>
     </File>
@@ -735,8 +735,20 @@
       <tvExp>0</tvExp>
       <tvExpOptDlg>0</tvExpOptDlg>
       <bDave2>0</bDave2>
-      <PathWithFileName>..\Self\APP\motion.c</PathWithFileName>
-      <FilenameWithoutPath>motion.c</FilenameWithoutPath>
+      <PathWithFileName>..\Self\APP\web.c</PathWithFileName>
+      <FilenameWithoutPath>web.c</FilenameWithoutPath>
+      <RteFlg>0</RteFlg>
+      <bShared>0</bShared>
+    </File>
+    <File>
+      <GroupNumber>5</GroupNumber>
+      <FileNumber>40</FileNumber>
+      <FileType>1</FileType>
+      <tvExp>0</tvExp>
+      <tvExpOptDlg>0</tvExpOptDlg>
+      <bDave2>0</bDave2>
+      <PathWithFileName>D:\0Workplace\H750_Test\h750\Self\APP\xiaozhi.c</PathWithFileName>
+      <FilenameWithoutPath>xiaozhi.c</FilenameWithoutPath>
       <RteFlg>0</RteFlg>
       <bShared>0</bShared>
     </File>

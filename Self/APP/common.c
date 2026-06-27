@@ -1,10 +1,13 @@
 #include "common.h"
-
+#include "web.h"
 
 uint8_t DEBUG = 1;  // =1 开机即输出调试信息
 uint8_t servo_mode =0; // =1 允许操作舵机
 uint8_t motor_mode = 1; // =1 允许操作电机
-uint8_t servo_enable = 1; // =1 允许舵机动作
+uint8_t servo_enable = 0; // =1 允许舵机动作
+uint8_t web_enable = 1;
+uint8_t xiaozhi_enable = 0;
+uint8_t obstacle_enable = 0;//开启避障
 
 void Init_Common(void)
 {
@@ -18,8 +21,8 @@ void Init_Common(void)
  
   if(servo_mode == 1)
   {
-    servo_init(&sh, TIM_CHANNEL_3, 90, -50, 730, 200); // 初始化舵机1
-    servo_init(&sl, TIM_CHANNEL_2, 90, -90, 1100, 400); // 初始化舵机2
+    servo_init(&sh, TIM_CHANNEL_3, 90, -50, 730, 200); // 初始化舵机1 E13
+    servo_init(&sl, TIM_CHANNEL_2, 90, -90, 1100, 400); // 初始化舵机2 E11
     
     face_track_init();  // 初始化人脸追踪 PID
   }
@@ -44,8 +47,8 @@ void Init_Common(void)
     HAL_Delay(3000);
     gyro_uart.send_string(&gyro_uart, gyro_save_cmd, sizeof(gyro_save_cmd));
     HAL_Delay(1000);
-    motor_init(&ml, TIM_CHANNEL_4, GPIOD, GPIOA, GPIO_PIN_11, GPIO_PIN_1); // 初始化电机1  PWM1 A3
-    motor_init(&mr, TIM_CHANNEL_3, GPIOD, GPIOD, GPIO_PIN_13, GPIO_PIN_12); // 初始化电机2 PWM2 A2
+    motor_init(&ml, TIM_CHANNEL_4, GPIOD, GPIOA, GPIO_PIN_11, GPIO_PIN_1); // 初始化电机1  PWM1 A3 左电机
+    motor_init(&mr, TIM_CHANNEL_3, GPIOD, GPIOD, GPIO_PIN_13, GPIO_PIN_12); // 初始化电机2 PWM2 A2 右电机
   }
 }
 
@@ -108,14 +111,10 @@ void main_task()
         angle_update_from_jy61p_frame(&angle, gyro_uart.rx_buf, gyro_uart.len);
         gyro_uart.rx_flag = 0;
     }
-    //5. web_uart (UART5)     网页和距离数据
+    //5. web_uart (UART5)     网页运动指令帧
     if(web_uart.is_received(&web_uart))
     {
-        // if (web_uart.len == 1 && web_uart.rx_buf[0] <= MODE_STOP) {
-        //     mode_HMI = web_uart.rx_buf[0];
-        // } else {
-        //     obstacle_parse_frame(web_uart.rx_buf, web_uart.len);
-        // }
+        web_parse_frame(web_uart.rx_buf, web_uart.len);  // 解析 'S','t',dat1~4,cmd,'E' 帧
         web_uart.rx_flag = 0;
     }
     //6. radar_uart (UART6) 接收雷达追踪数据帧 T,ang,dist\r\n
@@ -156,6 +155,20 @@ void main_task()
       if(HAL_GetTick() - motor_last_tick >= 10)
       {
         motor_last_tick = HAL_GetTick();
+        //web指令
+        if (web_enable && web_frame.cmd <= MODE_STOP) 
+          mode_execute((motor_mode_t)web_frame.cmd);// 执行运动指令 (0~6 有效)
+        //小智
+        if(xiaozhi_enable)
+          mode_execute(get_mode_from_pins());
+        //避障
+        if (obstacle_enable) 
+        {
+          //uint8_t flags[4];
+          //obstacle_make_flags(web_frame.dat, flags);
+          //oa_action_t action = obstacle_decide(flags);
+          //obstacle_execute(action);
+        }
         if(motion.enabled)
         {
           motion.update(&motion, 0.01f);

@@ -29,6 +29,23 @@ typedef struct Motion_Controller_ {
     void (*update)(struct Motion_Controller_ *self, float dt);
 } Motion_Controller;
 
+/* ── 运动模式枚举 ── */
+typedef enum {
+    MODE_FORWARD   = 0,
+    MODE_BACKWARD  = 1,
+    MODE_RIGHT     = 2,
+    MODE_LEFT      = 3,
+    MODE_TURN      = 4,
+    MODE_CIRCLE    = 5,
+    MODE_STOP      = 6,
+    MODE_LIGHT_ON  = 7,
+    MODE_LIGHT_OFF = 8,
+    MODE_FAN_ON    = 9,
+    MODE_FAN_OFF   = 10,
+    MODE_NIGHT     = 11,
+    MODE_UNKNOWN   = 12
+} motor_mode_t;
+
 
 void motion_init(Motion_Controller *m, int speed, PID_TypeDef *pid);
 void motion_set_target_yaw(Motion_Controller *m, float yaw);
