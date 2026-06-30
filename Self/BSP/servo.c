@@ -38,6 +38,7 @@ void servo_Set_Duty(SERVO *s, uint32_t duty)
 void servo_set_angle(SERVO *s, int angle)
 {
     int angle_temp = 0;
+    s->angle = angle;
     // 将角度映射到-180° ~ 180°范围内
     if(angle > 180)
         angle_temp = angle%360 - 360;

@@ -101,11 +101,11 @@ void motion_update_m(Motion_Controller *m, float dt)
     if (yaw_error > 180.0f)  yaw_error -= 360.0f;
     if (yaw_error < -180.0f) yaw_error += 360.0f;
 
-    // 3. 到达目标判定：速度<20 且 朝向偏差<5° 持续5秒 → 自动停
+    // 3. 到达目标判定：速度<20 且 朝向偏差<5° 持续1秒 → 自动停
     static float idle_time = 0.0f;
     if (abs(m->speed) < 20 && yaw_error < 5.0f && yaw_error > -5.0f) {
         idle_time += dt;
-        if (idle_time >= 5.0f) {
+        if (idle_time >= 1.0f) {
             m->enabled = 0;
             ml.set_speed(&ml, 0);
             mr.set_speed(&mr, 0);

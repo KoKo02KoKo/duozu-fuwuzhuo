@@ -38,10 +38,10 @@ typedef enum {
     MODE_TURN      = 4,
     MODE_CIRCLE    = 5,
     MODE_STOP      = 6,
-    MODE_LIGHT_ON  = 7,
-    MODE_LIGHT_OFF = 8,
-    MODE_FAN_ON    = 9,
-    MODE_FAN_OFF   = 10,
+    MODE_OBSTACLE_ON  = 7,
+    MODE_OBSTACLE_OFF = 8,
+    MODE_XIAOZHI_ON    = 9,
+    MODE_XIAOZHI_OFF   = 10,
     MODE_NIGHT     = 11,
     MODE_UNKNOWN   = 12
 } motor_mode_t;

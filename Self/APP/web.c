@@ -1,5 +1,7 @@
 #include "web.h"
 #include "motion.h"
+#include "common.h"
+
 
 /* ── 全局变量 ── */
 web_frame_t web_frame = {{0}, 0};
@@ -82,6 +84,18 @@ void mode_execute(motor_mode_t mode_param)
             motion.set_target_yaw(&motion, 360);
             motion.set_speed(&motion, 0);
             motion.enable(&motion, 1);
+            break;
+        case MODE_OBSTACLE_ON:
+            obstacle_enable=1;
+            break;
+        case MODE_OBSTACLE_OFF:
+            obstacle_enable=0;
+            break;
+        case MODE_XIAOZHI_ON:
+            xiaozhi_enable=1;
+            break;
+        case MODE_XIAOZHI_OFF:
+            xiaozhi_enable=0;
             break;
         case MODE_UNKNOWN:
         default:
