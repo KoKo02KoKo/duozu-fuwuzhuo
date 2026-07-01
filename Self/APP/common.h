@@ -19,13 +19,14 @@
 #include "radar.h"
 #include "xiaozhi.h"
 #include "obstacle.h"
+#include "web.h"
 
 
 //
 extern uint8_t DEBUG; // =1 开机即输出调试信息
-extern uint32_t debug_last_tick; // 上次输出调试信息的时刻
 extern uint8_t servo_mode; // =1 允许操作舵机
 extern uint8_t motor_mode; // =1 允许操作电机
+extern uint8_t web_enable ;
 extern uint8_t xiaozhi_enable ;
 extern uint8_t obstacle_enable ;//
 //

@@ -101,21 +101,6 @@ void motion_update_m(Motion_Controller *m, float dt)
     if (yaw_error > 180.0f)  yaw_error -= 360.0f;
     if (yaw_error < -180.0f) yaw_error += 360.0f;
 
-    // 3. 到达目标判定：速度<20 且 朝向偏差<5° 持续1秒 → 自动停
-    static float idle_time = 0.0f;
-    if (abs(m->speed) < 20 && yaw_error < 5.0f && yaw_error > -5.0f) {
-        idle_time += dt;
-        if (idle_time >= 1.0f) {
-            m->enabled = 0;
-            ml.set_speed(&ml, 0);
-            mr.set_speed(&mr, 0);
-            idle_time = 0.0f;
-            return;
-        }
-    } else {
-        idle_time = 0.0f;
-    }
-
     // 4. PID 计算转向修正量（PID_Update 内部已处理角度环绕）
     float turn = m->yaw_pid->update(m->yaw_pid, m->target_yaw, current_yaw, dt);
     
@@ -127,4 +112,13 @@ void motion_update_m(Motion_Controller *m, float dt)
     // 6. 输出到左右电机
     ml.set_speed(&ml, left_speed);
     mr.set_speed(&mr, right_speed);
+
+    // 3. 到达目标判定：速度<20 且 朝向偏差<5° 持续1秒 → 自动停
+    if (yaw_error < 10.0f && yaw_error > -10.0f) {
+        if(ml.speed < 30 && ml.speed > 0)  ml.set_speed(&ml, 30);
+        if(ml.speed < 0 && ml.speed > -30)  ml.set_speed(&ml, -30);
+        if(mr.speed < 30 && mr.speed > 0)  mr.set_speed(&mr, 30);
+        if(mr.speed < 0 && mr.speed > -30)  mr.set_speed(&mr, -30);
+        if(yaw_error < 3.0f && yaw_error > -3.0f) {m->enable(m, 0);}
+    }
 }

@@ -43,7 +43,8 @@ typedef enum {
     MODE_XIAOZHI_ON    = 9,
     MODE_XIAOZHI_OFF   = 10,
     MODE_NIGHT     = 11,
-    MODE_UNKNOWN   = 12
+    MODE_UNKNOWN   = 12,
+    XIAOZHI = 13
 } motor_mode_t;
 
 

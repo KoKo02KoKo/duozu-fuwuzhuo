@@ -1,12 +1,11 @@
 #include "common.h"
-#include "web.h"
 
 uint8_t DEBUG = 1;  // =1 开机即输出调试信息
 uint8_t servo_mode =1; // =1 允许操作舵机
 uint8_t motor_mode = 1; // =1 允许操作电机
-uint8_t servo_enable = 0; // =1 允许舵机动作
-uint8_t web_enable = 0;
-uint8_t xiaozhi_enable = 0;
+uint8_t servo_enable = 1; // =1 允许舵机动作
+uint8_t web_enable = 1;
+uint8_t xiaozhi_enable = 1;
 uint8_t obstacle_enable = 0;//开启避障
 
 void Init_Common(void)
@@ -23,14 +22,14 @@ void Init_Common(void)
   {
     servo_init(&sh, TIM_CHANNEL_3, 58, -90, 220, 780); // 初始化舵机1 E13
     servo_init(&sl, TIM_CHANNEL_2, 90, -90, 1100, 400); // 初始化舵机2 E11
+    face_track_init();  // 初始化人脸追踪 PID 控制器
     sh.set_angle(&sh,15);
-    face_track_init();  // 初始化人脸追踪 PID
   }
 
   if(motor_mode == 1)
   {
     angle_init(&angle);// 初始化角度结构体
-    PID_Init(&yaw_pid, 2.0f, 0.05f, 0.5f, -70.0f, 70.0f); // 初始化 PID 控制器，参数需要根据实际情况调整
+    PID_Init(&yaw_pid, 2.0f, 0.05f, 0.5f, -100.0f, 100.0f); // 初始化 PID 控制器，参数需要根据实际情况调整
     motion_init(&motion, 0, &yaw_pid); // 初始化运动控制器，基础速度 0，使用 yaw_pid 进行偏航控制
 
     // 初始化陀螺仪，发送解锁、设置输出、校准和保存命令
@@ -49,6 +48,7 @@ void Init_Common(void)
     HAL_Delay(1000);
     motor_init(&ml, TIM_CHANNEL_4, GPIOD, GPIOA, GPIO_PIN_11, GPIO_PIN_1); // 初始化电机1  PWM1 A3 左电机
     motor_init(&mr, TIM_CHANNEL_3, GPIOD, GPIOD, GPIO_PIN_13, GPIO_PIN_12); // 初始化电机2 PWM2 A2 右电机
+
   }
 }
 
@@ -61,13 +61,14 @@ void main_task()
     if(DEBUG && (HAL_GetTick() - debug_last_tick >= 300))
     {
       debug_last_tick = HAL_GetTick();
-      printf("DEBUG=%d SERVO=%d MOTOR=%d\r\n", DEBUG, servo_mode,motion.enabled);
-      printf("angle: yaw=%.2f, pitch=%.2f, roll=%.2f\r\n", angle.yaw, angle.pitch, angle.roll);
-      printf("motion: speed=%d, target_yaw=%.2f, enabled=%d\r\n", motion.speed, motion.target_yaw, motion.enabled);
-      printf("motor: ml.speed=%d, mr.speed=%d\r\n", ml.speed, mr.speed);
-      printf("yaw PID: Kp=%.3f Ki=%.3f Kd=%.3f\r\n", yaw_pid.Kp, yaw_pid.Ki, yaw_pid.Kd);
-      printf("yaw err: %.2f\r\n", motion.target_yaw - angle.yaw);
+      printf("SERVO=%d   MOTOR=%d   Web=%d   XZ=%d   Ob=%d\r\n",  servo_mode,motion.enabled,web_enable,xiaozhi_enable,obstacle_enable);
+      // printf("angle: yaw=%.2f,    pitch=%.2f,    roll=%.2f\r\n", angle.yaw, angle.pitch, angle.roll);
+      // printf("motion: speed=%d, target_yaw=%.2f, enabled=%d\r\n", motion.speed, motion.target_yaw, motion.enabled);
+      // printf("motor: ml.speed=%d, mr.speed=%d\r\n", ml.speed, mr.speed);
+      // printf("yaw PID: Kp=%.3f Ki=%.3f Kd=%.3f\r\n", yaw_pid.Kp, yaw_pid.Ki, yaw_pid.Kd);
       printf("phase: %d, oa_action: %d\r\n", oa_phase, oa_action);
+      printf("xiaozhi_pin:%u\r\n",pin_val);
+      printf("sl.angle`:%d, sh.angle`:%d\r\n",sl.angle,sh.angle);
     }
     // 1.debug_uart 接收 "DEBUG=1" 或 "DEBUG=0" 来控制 DEBUG 模式开关
     if(debug_uart.is_received(&debug_uart))
@@ -83,6 +84,11 @@ void main_task()
       strcmp((char*)debug_uart.rx_buf, "SERVO=0") == 0 ? (servo_enable = 0) : 0; // 收到 "SERVO=0" 则关闭舵机控制
       strcmp((char*)debug_uart.rx_buf, "MOTOR=1") == 0 ? (motion.enabled = 1) : 0; // 收到 "MOTOR=1" 则开启电机控制
       strcmp((char*)debug_uart.rx_buf, "MOTOR=0") == 0 ? (motion.enabled = 0) : 0; // 收到 "MOTOR=0" 则关闭电机控制
+      strcmp((char*)debug_uart.rx_buf, "XZ=1") == 0 ? (xiaozhi_enable = 1) : 0; // 收到 "MOTOR=1" 则开启电机控制
+      strcmp((char*)debug_uart.rx_buf, "XZ=0") == 0 ? (xiaozhi_enable = 0) : 0; // 收到 "MOTOR=0" 则关闭电机控制
+      strcmp((char*)debug_uart.rx_buf, "OB=1") == 0 ? (obstacle_enable = 1) : 0; // 收到 "MOTOR=1" 则开启电机控制
+      strcmp((char*)debug_uart.rx_buf, "OB=0") == 0 ? (obstacle_enable = 0) : 0; // 收到 "MOTOR=0" 则关闭电机控制
+     
         strcmp((char*)debug_uart.rx_buf, "p+") == 0 ? (yaw_pid.Kp += 0.01f) : 0; // 收到 "p+" 则增加偏航 PID 比例增益
         strcmp((char*)debug_uart.rx_buf, "p-") == 0 ? (yaw_pid.Kp -= 0.01f) : 0; // 收到 "p-" 则减少偏航 PID 比例增益
         strcmp((char*)debug_uart.rx_buf, "i+") == 0 ? (yaw_pid.Ki += 0.001f) : 0; // 收到 "i+" 则增加偏航 PID 积分增益
@@ -93,9 +99,7 @@ void main_task()
       strcmp((char*)debug_uart.rx_buf, "yaw-") == 0 ? (motion.target_yaw -= 10) : 0; // 收到 "yaw-" 则减少目标偏航角
       strcmp((char*)debug_uart.rx_buf, "speed+") == 0 ? (motion.speed += 10) : 0; // 收到 "speed+" 则增加基础速度
       strcmp((char*)debug_uart.rx_buf, "speed-") == 0 ? (motion.speed -= 10) : 0; // 收到 "speed-" 则减少基础速度
-      strcmp((char*)debug_uart.rx_buf, "duty+") == 0 ? (sh.duty+= 10) : 0; // 收到 "speed+" 则增加基础速度
-      strcmp((char*)debug_uart.rx_buf, "duty-") == 0 ? (sh.duty -= 10) : 0; // 收到 "speed-" 则减少基础速度
-      //radar_uart.send_string(&radar_uart, debug_uart.rx_buf, debug_uart.len); // 将调试命令转发到雷达模块，方便调试雷达数据交互
+      radar_uart.send_string(&radar_uart, debug_uart.rx_buf, debug_uart.len); // 将调试命令转发到雷达模块，方便调试雷达数据交互
     }
     // 2.k230_uart 接收人脸追踪数据帧，解析并更新 face_data 结构体
     if( servo_mode == 1 && k230_uart.is_received(&k230_uart))
@@ -119,9 +123,6 @@ void main_task()
     if(web_uart.is_received(&web_uart))
     {
         web_parse_frame(web_uart.rx_buf, web_uart.len);  // 解析 'S','t',dat1~4,cmd,'E' 帧
-        printf("| dat:%d %d %d %d cmd:%d\r\n",
-               web_frame.dat[0], web_frame.dat[1], web_frame.dat[2], web_frame.dat[3],
-               web_frame.cmd);
         web_uart.rx_flag = 0;
     }
     //6. radar_uart (UART6) 接收雷达追踪数据帧 T,ang,dist\r\n
